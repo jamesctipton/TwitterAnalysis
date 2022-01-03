@@ -19,27 +19,57 @@
          <link rel="stylesheet" href="{{ static_url('twitterAnalysis.css') }}">
      </head>
      <script>
-         function loadItems() {
-             var string = "{{ tweets }}";
-             string = string.replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/\&quot;/g, '"').slice(2).slice(0,-2);
-             string = "[" + string + "]";
-             string = string.replace(/"}", "{"_id":/g, '"}, {"_id":');
-             var tweets = JSON.parse(string);    //hate this
-             var limit = parseInt("{{ limit }}");
-             for(let i=0; i<limit; i++) {
-                 document.getElementById("tableBody").innerHTML += '<tr>' +
-                     '<td class="number" >' + (i+1) + '</td>' +
-                     '<td class="id" >' + tweets[i]["_id"] + '</td>' +
-                     '<td class= "date" >' + tweets[i]["created_at"] + '</td>' +
-                     '<td class="tweet" >' + tweets[i]["text"] + '</td>' +
-                     '<td class="fav" >' + tweets[i]["like_count"] + '</td>' +
-                     '<td class="rt" >' + tweets[i]["retweet_cou"] + '</td>' +
-                     '<td class="url" ><a href="' + tweets[i]["url"] + '" target="_blank">link</a></td>' +
-                     '<td class="result" ><input type="checkbox"></td>' +
-                     '<td><textarea name="remarks" rows="3" cols="20" ></textarea></td>' +
-                 '</tr>'
-             }
-         }
+        var tweets;
+        var page_limit = parseInt("{{ limit }}"); // page limit
+        var limit = page_limit;
+        var x = 0;
+
+        function loadItems() {
+            var string = "{{ tweets }}";
+            string = string.replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/\&quot;/g, '"').slice(2).slice(0,-2);
+            string = "[" + string + "]";
+            string = string.replace(/"}", "{"_id":/g, '"}, {"_id":');
+            tweets = JSON.parse(string);    //hate this
+
+            displayData(x, page_limit);
+        }
+
+        function displayData(start) {
+            console.log(start);
+            i = start;
+            lim = i + page_limit;
+            document.getElementById("tableBody").innerHTML = "";
+            for(i; i<lim; i++) {
+                document.getElementById("tableBody").innerHTML += '<tr>' +
+                    '<td class="number" >' + (i+1) + '</td>' +
+                    '<td class="id" >' + tweets[i]["_id"] + '</td>' +
+                    '<td class= "date" >' + tweets[i]["created_at"] + '</td>' +
+                    '<td class="tweet" >' + tweets[i]["text"] + '</td>' +
+                    '<td class="fav" >' + tweets[i]["like_count"] + '</td>' +
+                    '<td class="rt" >' + tweets[i]["retweet_cou"] + '</td>' +
+                    '<td class="url" ><a href="' + tweets[i]["url"] + '" target="_blank">link</a></td>' +
+                    '<td class="result" ><input type="checkbox"></td>' +
+                    '<td><textarea name="remarks" rows="3" cols="20" ></textarea></td>' +
+                '</tr>'
+            }
+        }
+
+        function back() {
+            if(x == 0) { return; }
+            else {
+                x-=page_limit;
+                displayData(x)
+            }
+        }
+
+        function forward() {
+            if(x+page_limit >= tweets.length) { return; }
+            else {
+                x+=page_limit;
+                displayData(x)
+            }
+        }
+
      </script>
      <body onload="loadItems()">
           <table class="table-dark table-striped">
@@ -63,5 +93,9 @@
                   
               </tbody>
           </table>
+          <div id="buttons">
+              <span id="back" class="button" onclick="back()">«</span>
+              <span id="forward" class="button" onclick="forward()">»</span><br>
+          </div>
      </body>
  </html>

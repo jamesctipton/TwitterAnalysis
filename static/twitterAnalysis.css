@@ -37,3 +37,13 @@ input {
     width: 25px;
     height: 25px;
 }
+
+#buttons {
+    text-align: center;
+    font-size: 30px;
+}
+
+#back, #forward {
+    background-color: black;
+    padding: 0 6px;
+}

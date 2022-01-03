@@ -17,11 +17,12 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         
         tweets = []
-        limit = 20
+        limit = 2   #per page
+        stop_at = 20
 
         for tweet in collection.find():
             tweets.append(json.dumps(tweet))
-            if len(tweets) == limit: break
+            if len(tweets) == stop_at: break
 
         self.render("index.html", tweets=tornado.escape.json_encode(tweets), limit=limit)    
 
