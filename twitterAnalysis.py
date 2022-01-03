@@ -17,8 +17,8 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         
         tweets = []
-        limit = 2   #per page
-        stop_at = 20
+        limit = 20   #per page
+        stop_at = 200
 
         for tweet in collection.find():
             tweets.append(json.dumps(tweet))

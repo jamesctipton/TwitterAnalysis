@@ -47,3 +47,11 @@ input {
     background-color: black;
     padding: 0 6px;
 }
+
+.covid {
+    color: red;
+}
+
+.test {
+    color: gold;
+}

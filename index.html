@@ -1,8 +1,6 @@
 
 <!-- 
     TO DO:
-    - pages
-    - highlights
     - add data
  -->
 
@@ -35,7 +33,6 @@
         }
 
         function displayData(start) {
-            console.log(start);
             i = start;
             lim = i + page_limit;
             document.getElementById("tableBody").innerHTML = "";
@@ -44,7 +41,7 @@
                     '<td class="number" >' + (i+1) + '</td>' +
                     '<td class="id" >' + tweets[i]["_id"] + '</td>' +
                     '<td class= "date" >' + tweets[i]["created_at"] + '</td>' +
-                    '<td class="tweet" >' + tweets[i]["text"] + '</td>' +
+                    '<td class="tweet" >' + tweets[i]["text"].replace(/covid/gi,"<span class='covid'>covid</span>").replace(/corona/gi,"<span class='covid'>corona</span>").replace(/test/gi,"<span class='test'>test</span>").replace(/positive/gi,"<span class='test'>positive</span>") + '</td>' +
                     '<td class="fav" >' + tweets[i]["like_count"] + '</td>' +
                     '<td class="rt" >' + tweets[i]["retweet_cou"] + '</td>' +
                     '<td class="url" ><a href="' + tweets[i]["url"] + '" target="_blank">link</a></td>' +
